@@ -4,7 +4,7 @@ First leg, currently called "Libs" for no good reason, mostly consists of readin
 
 There are 3 Functions so far:
 
-GetFileName(title): Simply adds an dialog box to the task of reading excel files. 
+GetFileName(title): Simply adds a dialog box to the task of reading excel files. 
   Takes a string to be shown on the title of open dialog box.
   Returns a dictionary with:
     "CompleteFile": path+file name
