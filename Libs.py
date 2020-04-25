@@ -33,7 +33,7 @@ def getFileName(fileType = "", initDir ='C:/Users/y.eskandari/Downloads/'):
 #The defualt file type is excel
 #______________________________________________________________________________________________________________________
 #
-def writeExcel(*df):
+def writeExcel(*df, _index = False, name = 'Result'):
     
     root = tk.Tk()
     root.withdraw()
@@ -42,7 +42,7 @@ def writeExcel(*df):
     options['defaultextension'] = 'xlsx'
     options['filetypes'] = [('Excel', '.xlsx'), ('All Files', '.*')]
     options['initialdir'] = 'C:/Users/y.eskandari/Downloads/'
-    options['initialfile'] = 'Result'
+    options['initialfile'] = name
     options['title'] = 'Save As:'
     
     file = filedialog.asksaveasfile(**options).name
@@ -54,12 +54,13 @@ def writeExcel(*df):
             dataframe.reset_index(inplace = True)
             if "index" in dataframe.columns:
                 dataframe.drop(['index'], axis = 1, inplace = True)
-            dataframe.to_excel(writer, sheet_name ='Sheet-'+str(i), index = False)
+            dataframe.to_excel(writer, sheet_name ='Sheet-'+str(i), index = _index)
             i += 1
         writer.save()
         
     except:
         input("BloodyError! " + str(sys.exc_info()[0]))
+    return file
 #______________________________________________________________________________________________________________________
 #    
 #This function will check a file's size and compare it to a limit

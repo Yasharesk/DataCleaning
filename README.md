@@ -11,8 +11,10 @@ GetFileName(title): Simply adds an dialog box to the task of reading excel files
     "FileName": only the file name
     "Path" : only the path
 
-WriteExcel(*df): A Save As dialog box to choose the directory and the name of the excel file to be written. 
+WriteExcel(*df, _index = False, name='Result'): A Save As dialog box to choose the directory and the name of the excel file to be written. 
   Takes multiple data frames (*df).
+  Takes a boolean (_index) to indicate if datafram index should be written or not. 
+  Takes a string (name) to be passed to save as dialog box for inital file name. 
   Returns nothing. 
   
 break_file_by_size(file, limit): Breaks a file to chuncks with sizes smaller than limit
