@@ -31,7 +31,7 @@ def getFileName(fileType = "", initDir =os.getcwd()):
     
     FileName = filedialog.askopenfilename(initialdir = initDir, filetypes = fileTypes, title = title)
 
-    return {"CompleteFile":FileName, "Path": FileName.rsplit('/',1)[0] + "/", "FileName":FileName.rsplit('/',1)[1]}
+    return {"CompleteFile":FileName, "Path": FileName.rsplit('/',1)[0] + "/", "FileName":FileName.rsplit('/',1)[1], "FileExtension":FileName.rsplit('.',1)[-1]}
 #______________________________________________________________________________________________________________________
 #    
 #This is to write pnadas data frame to Excel file

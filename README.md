@@ -12,6 +12,7 @@ Simply adds a dialog box to the task of reading excel files. <br>
           <li>"CompleteFile": path+file name</li>
           <li>"FileName": only the file name</li>
           <li>"Path" : only the path</li>
+          <li>"FileExtensioin": only the file extension</li>
     </ul>
 <hr>
 <h3>WriteExcel(*df, _index = False, name='Result'): </h3><br>
