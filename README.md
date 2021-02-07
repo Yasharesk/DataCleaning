@@ -4,7 +4,7 @@ First leg, currently called "Libs" for no good reason, mostly consists of readin
 
 There are 3 Functions so far:<br>
 <hr>
-<h3>GetFileName(title):</h3> <br>
+<h3>GetFileName(fileType=".xlsx", initDir = os.getcwd()):</h3> <br>
 Simply adds a dialog box to the task of reading excel files. <br>
   Input: A string to be shown on the title of open dialog box.<br>  
   Returns: A dictionary with:<br>
