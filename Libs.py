@@ -23,7 +23,7 @@ def getFileName(fileType = "", initDir =os.getcwd()):
     root.withdraw()
     
     if fileType == "":
-        fileTypes = (("Excel File", "*.xlsx"), ("All Files", "*.*"))
+        fileTypes = (("All Files", "*.*"),("Excel File", "*.xlsx"))
         title = 'Choose a file to open:'
     else:
         fileTypes = (("User Specified", "*.{}".format(fileType)),("Excel File", "*.xlsx"),("All Files", "*.*"))
