@@ -4,15 +4,15 @@ First leg, currently called "Libs" for no good reason, mostly consists of readin
 
 There are 3 Functions so far:<br>
 <hr>
-<h3>GetFileName(fileType=".xlsx", initDir = os.getcwd()):</h3> <br>
-Simply adds a dialog box to the task of reading excel files. <br>
-  Input: A string to be shown on the title of open dialog box.<br>  
+<h3>GetFileName(fileType="", initDir = os.getcwd()):</h3> <br>
+Simply adds a dialog box to the task of reading files. <br>
+  Input: A string to specify file type.<br>  
   Returns: A dictionary with:<br>
     <ul>
           <li>"CompleteFile": path+file name</li>
           <li>"FileName": only the file name</li>
           <li>"Path" : only the path</li>
-          <li>"FileExtensioin": only the file extension</li>
+          <li>"FileExtension": only the file extension</li>
     </ul>
 <hr>
 <h3>WriteExcel(*df, _index = False, name='Result'): </h3><br>
