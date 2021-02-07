@@ -14,17 +14,23 @@ import os
 #______________________________________________________________________________________________________________________    
 #
 #This is an Open Dialog box 
-#You can Specify the name of file type on the window title as a String or leave it empty
+#You can Specify the extention of the file on the window title as a String or leave it empty
 #______________________________________________________________________________________________________________________    
 #
-def getFileName(fileType = "", initDir ='C:/Users/y.eskandari/Downloads/'):
+def getFileName(fileType = "", initDir =os.getcwd()):
     
     root = tk.Tk()
     root.withdraw()
     
-    FileName = filedialog.askopenfilename(initialdir = initDir, 
-                                          filetypes = (("Excel File", "*.xlsx"),("All Files","*.*")), 
-                                          title = 'Choose the '+ fileType + ' file:')
+    if fileType == "":
+        fileTypes = (("Excel File", "*.xlsx"), ("All Files", "*.*"))
+        title = 'Choose a file to open:'
+    else:
+        fileTypes = (("User Specified", "*.{}".format(fileType)),("Excel File", "*.xlsx"),("All Files", "*.*"))
+        title = 'Choose a {} file to open:'.format(fileType)
+    
+    FileName = filedialog.askopenfilename(initialdir = initDir, filetypes = fileTypes, title = title)
+
     return {"CompleteFile":FileName, "Path": FileName.rsplit('/',1)[0] + "/", "FileName":FileName.rsplit('/',1)[1]}
 #______________________________________________________________________________________________________________________
 #    
@@ -41,7 +47,7 @@ def writeExcel(*df, _index = False, name = 'Result'):
     options = {}
     options['defaultextension'] = 'xlsx'
     options['filetypes'] = [('Excel', '.xlsx'), ('All Files', '.*')]
-    options['initialdir'] = 'C:/Users/y.eskandari/Downloads/'
+    options['initialdir'] = os.getcwd()
     options['initialfile'] = name
     options['title'] = 'Save As:'
     
