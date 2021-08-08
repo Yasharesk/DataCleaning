@@ -9,75 +9,119 @@ from tkinter import filedialog
 import pandas as pd
 import sys
 import os
-#class Files:
 
-#______________________________________________________________________________________________________________________    
-#
-#This is an Open Dialog box 
-#You can Specify the extention of the file on the window title as a String or leave it empty
-#______________________________________________________________________________________________________________________    
-#
-def getFileName(fileType = "", initDir =os.getcwd()):
-    
+
+def get_file_name(fileType: str = "", initDir: str = os.getcwd()) -> dict:
+    '''
+    A simple open dialogue box to choose a file and get name and info.
+
+    Parameters
+    ----------
+    fileType : str, optional
+        Extention of the file on the window title. The default is "".
+    initDir : str, optional
+        The initial directory to be shown. The default is os.getcwd().
+
+    Returns
+    -------
+    dict
+        DESCRIPTION.
+
+    '''
     root = tk.Tk()
     root.withdraw()
-    
+
     if fileType == "":
-        fileTypes = (("All Files", "*.*"),("Excel File", "*.xlsx"))
+        fileTypes = (("All Files", "*.*"), ("Excel File", "*.xlsx"))
         title = 'Choose a file to open:'
     else:
-        fileTypes = (("User Specified", "*.{}".format(fileType)),("Excel File", "*.xlsx"),("All Files", "*.*"))
+        fileTypes = (("User Specified", "*.{}".format(fileType)),
+                     ("Excel File", "*.xlsx"), ("All Files", "*.*"))
         title = 'Choose a {} file to open:'.format(fileType)
-    
-    FileName = filedialog.askopenfilename(initialdir = initDir, filetypes = fileTypes, title = title)
 
-    return {"CompleteFile":FileName, "Path": FileName.rsplit('/',1)[0] + "/", "FileName":FileName.rsplit('/',1)[1], "FileExtension":FileName.rsplit('.',1)[-1]}
-#______________________________________________________________________________________________________________________
-#    
-#This is to write pnadas data frame to Excel file
-#The path is chosen by dialog and a name is given
-#The defualt file type is excel
-#______________________________________________________________________________________________________________________
-#
-def writeExcel(*df, _index = False, name = 'Result'):
-    
+    FileName = filedialog.askopenfilename(
+        initialdir=initDir, filetypes=fileTypes, title=title)
+
+    return {"CompleteFile": FileName,
+            "Path": FileName.rsplit('/', 1)[0] + "/",
+            "FileName": FileName.rsplit('/', 1)[1],
+            "FileExtension": FileName.rsplit('.', 1)[-1]}
+
+
+def write_excel(*df, _index=False, name='Result') -> str:
+    '''
+    Simple Save As dialogue box to write pandas data frames to Excel file.
+    Easier control on finding the path, and giving the file name.
+    Multiple dataframes will be written to different sheets of the file.
+
+    Parameters
+    ----------
+    *df : pandas.DataFrame
+        Dataframes to be written to excel file.
+    _index : Bool, optional
+        Indicates if the index should be written to the file.
+        The default is False.
+    name : str, optional
+        An initial name to fill the dialogue box. The default is 'Result'.
+
+    Returns
+    -------
+    file : str
+        Full path to the selected file name.
+
+    '''
+
     root = tk.Tk()
     root.withdraw()
-    
+
     options = {}
     options['defaultextension'] = 'xlsx'
     options['filetypes'] = [('Excel', '.xlsx'), ('All Files', '.*')]
     options['initialdir'] = os.getcwd()
     options['initialfile'] = name
     options['title'] = 'Save As:'
-    
+
     file = filedialog.asksaveasfile(**options).name
-    
-    try:    
+
+    try:
         writer = pd.ExcelWriter(file)
-        i = 1   
+        i = 1
         for dataframe in df:
-            dataframe.reset_index(inplace = True)
+            dataframe.reset_index(inplace=True)
             if "index" in dataframe.columns:
-                dataframe.drop(['index'], axis = 1, inplace = True)
-            dataframe.to_excel(writer, sheet_name ='Sheet-'+str(i), index = _index)
+                dataframe.drop(['index'], axis=1, inplace=True)
+            dataframe.to_excel(writer,
+                               sheet_name='Sheet-' + str(i),
+                               index=_index)
             i += 1
         writer.save()
-        
-    except:
-        input("BloodyError! " + str(sys.exc_info()[0]))
+
+    except(Exception):
+        input("There was an error! " + str(sys.exc_info()[0]))
     return file
-#______________________________________________________________________________________________________________________
-#    
-#This function will check a file's size and compare it to a limit
-#The limit is taken in MB
-#If the file is larger than limit, it will break it to as many files 
-#as required to keep the sizes smaller than limit
-#Takes the file as an "getFileName" dict, returns a dict with 'files' and 
-#'rows'. If no change is done the rows will be 0
-#______________________________________________________________________________________________________________________
-#
-def break_file_by_size(file, limit):
+
+
+def break_file_by_size(file, limit) -> dict:
+    '''
+    Check a file's size and compare it to specified limit.
+    The limit is given in MB.
+    If the file is larger than the limit, it will break it to as many files
+    as necessary to keep the sizes smaller than the limit.
+
+    Parameters
+    ----------
+    file : get_file_name()
+        Information of the file selected by getFileName function.
+    limit : int
+        Size limit in Mega Bytes.
+
+    Returns
+    -------
+    dict
+        Dictionary containing the number of files generated and
+        number of rows processed and converted to those files.
+
+    '''
     limit = limit*1024*1024
     size = os.path.getsize(file["CompleteFile"])
     if size > limit:
@@ -89,10 +133,10 @@ def break_file_by_size(file, limit):
         for i in range(batch_count):
             dftemp = df.iloc[(row_count*i):min(row_count*(i+1), len(df)), :]
             writer = pd.ExcelWriter(file["Path"]+str(i)+'_'+file["FileName"])
-            dftemp.to_excel(writer, index = False)
+            dftemp.to_excel(writer, index=False)
             writer.save()
             row_counter = row_counter + len(dftemp)
             file_counter = file_counter + 1
-        return {'files':file_counter, 'rows':row_counter}
+        return {'files': file_counter, 'rows': row_counter}
     else:
         return {'files': 1, 'rows': 0}
