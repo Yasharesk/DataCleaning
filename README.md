@@ -4,7 +4,7 @@ First leg, currently called "Libs" for no good reason, mostly consists of readin
 
 There are 3 Functions so far:<br>
 <hr>
-<h3>GetFileName(fileType="", initDir = os.getcwd()):</h3> <br>
+<h3>get_file_name(fileType="", initDir = os.getcwd()):</h3> <br>
 Simply adds a dialog box to the task of reading files. <br>
   Input: A string to specify file type.<br>  
   Returns: A dictionary with:<br>
@@ -15,7 +15,7 @@ Simply adds a dialog box to the task of reading files. <br>
           <li>"FileExtension": only the file extension</li>
     </ul>
 <hr>
-<h3>WriteExcel(*df, _index = False, name='Result'): </h3><br>
+<h3>write_excel(*df, _index = False, name='Result'): </h3><br>
   A Save As dialog box to choose the directory and the name of the excel file to be written. <br>
   Input: <br>
   <ol>
@@ -23,7 +23,7 @@ Simply adds a dialog box to the task of reading files. <br>
     <li>Takes a boolean (_index) to indicate if datafram index should be written or not. </li>
     <li>Takes a string (name) to be passed to save as dialog box for inital file name. </li>
   </ol>
-  Returns: nothing. <br>
+  Returns: Full path and name of the file. <br>
 <hr>
 <h3>break_file_by_size(file, limit): </h3><br>
 Breaks a file to chuncks with sizes smaller than limit<br>
@@ -33,3 +33,4 @@ Breaks a file to chuncks with sizes smaller than limit<br>
               <li>"files": count of files created</li>
               <li>"rows": total number of rows created in files (0 if the main file is smaller than limit)</li>
           </ul>
+
