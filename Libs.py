@@ -35,9 +35,9 @@ def get_file_name(fileType: str = "", initDir: str = os.getcwd()) -> dict:
         fileTypes = (("All Files", "*.*"), ("Excel File", "*.xlsx"))
         title = 'Choose a file to open:'
     else:
-        fileTypes = (("User Specified", "*.{}".format(fileType)),
-                     ("Excel File", "*.xlsx"), ("All Files", "*.*"))
-        title = 'Choose a {} file to open:'.format(fileType)
+        fileTypes = ((f'User Specified', f'*.{fileType}'),
+                     ('Excel File', '*.xlsx'), ('All Files', '*.*'))
+        title = f'Choose a {fileType} file to open:'
 
     FileName = filedialog.askopenfilename(
         initialdir=initDir, filetypes=fileTypes, title=title)
@@ -85,19 +85,17 @@ def write_excel(*df, _index=False, name='Result') -> str:
 
     try:
         writer = pd.ExcelWriter(file)
-        i = 1
-        for dataframe in df:
+        for i, dataframe in enumerate(df):
             dataframe.reset_index(inplace=True)
-            if "index" in dataframe.columns:
+            if 'index' in dataframe.columns:
                 dataframe.drop(['index'], axis=1, inplace=True)
             dataframe.to_excel(writer,
                                sheet_name='Sheet-' + str(i),
                                index=_index)
-            i += 1
         writer.save()
 
     except(Exception):
-        input("There was an error! " + str(sys.exc_info()[0]))
+        input('There was an error! ' + str(sys.exc_info()[0]))
     return file
 
 
