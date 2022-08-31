@@ -33,4 +33,8 @@ Breaks a file to chuncks with sizes smaller than limit<br>
               <li>"files": count of files created</li>
               <li>"rows": total number of rows created in files (0 if the main file is smaller than limit)</li>
           </ul>
-
+<hr>
+<h3>break_file_by_column(path, file, column_name): </h3><br>
+Breaks a file down based on unique values of a column, creating a new file for each value<br>
+  Input: Path and File name and column name to be used for breaking down.<br>
+  
