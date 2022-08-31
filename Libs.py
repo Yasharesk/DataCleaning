@@ -138,3 +138,16 @@ def break_file_by_size(file, limit) -> dict:
         return {'files': file_counter, 'rows': row_counter}
     else:
         return {'files': 1, 'rows': 0}
+
+
+def break_file_by_column(file_path: str, file_name: str, col_name: str) -> None:
+    '''
+    Break down an Excel file based on unique values of a column and create a file for each value.
+    '''
+    df = pd.read_excel(os.path.join(file_path, file_name + '.xlsx'))
+    if col_name not in df.columns:
+        raise ValueError('Column name not found in file.')
+    for col_value in df[col_name].unique():
+        writer = pd.ExcelWriter(os.path.join(file_path, file_name + '_' + str(col_value) + '.xlsx' ))
+        df[df[col_name]==col_value].to_excel(writer, index=False)
+        writer.save()
